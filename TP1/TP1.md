@@ -1,6 +1,33 @@
 # Redes de Computadoras 2026
 
 ## Trabajo práctico N°1
+
+**Integrantes**  
+- Callovi, Lautaro
+- Galoppo, José María
+- Moreyra, Julián
+- Rivera, Luis Mariano
+
+**Grupo**: pingCollins
+
+**Centro educativo**: FCEFYN - UNC
+
+**Asignatura**: Redes de Computadoras
+
+**Profesores**
+- Henn, Santiago M.
+- Oliva Cuneo, Facundo N.
+
+**Fecha de entrega**: 26 de marzo de 2026
+
+---
+### Información de los autores
+- jose.maria.galoppo@mi.unc.edu.ar (Galoppo, José María)
+- luismarianorivera.25@mi.unc.edu.ar (Rivera, Luis Mariano)
+- julian.moreyra@mi.unc.edu.ar (Moreyra, Julián)
+- lautaro.callovi@mi.unc.edu.ar (Callovi, Lautaro Nicolás)
+---
+
 ## Parte 1 - Simulación de envío de paquetes, ARP y ruteo entre redes.
 
 ## Resumen
