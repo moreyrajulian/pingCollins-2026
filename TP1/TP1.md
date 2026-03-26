@@ -1,19 +1,18 @@
 # Redes de Computadoras 2026
 
-## Trabajo práctico N°1 - Simulación de envío de paquetes, ARP y ruteo entre redes.
+## Trabajo práctico N°1
+## Parte 1 - Simulación de envío de paquetes, ARP y ruteo entre redes.
 
 ## Resumen
 
 En este trabajo práctico se desarrolló de manera "física y manual" el transporte de paquetes en una red WAN con el propósito de comprender conceptualmente su funcionamiento.
----
+
 ## Introducción
 
 En la primera parte del laboratorio, nos dividimos en grupos que cumplieron la función de nodos, siendo tres grupos los nodos intermedios que funcionaron como routers. Cada grupo contaba con dirección IP, dirección MAC, máscara de subred y puerta de enlace predeterminada.
 
 En la segunda parte, se realizaron técnicas de detección de errores mediante EDAC (Error Detection And Correction).
 
----
-# Desarrollo
 ## Actividad 1
 
 En este caso, nuestro grupo (PingCollins) cumplió la función de router.
@@ -52,7 +51,7 @@ En este caso, nuestro grupo (PingCollins) cumplió la función de router.
 
 En este punto recibimos distintos payloads provenientes de otros routers o el gateway conectado a nosotros. La tarea era detectar a donde habia que enviarlo (otro router o al gateway por defecto), cambiar direccion de origen y destino, y reducir el TTL.
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 ## Actividad 4
 
@@ -122,3 +121,57 @@ El campo TTL (Time To Live) se decrementa en cada router. Este mecanismo previen
 - **Impacto sin TTL:** Sin este mecanismo, los paquetes circulando en bucles nunca serían descartados, saturando la red y consumiendo recursos indefinidamente. Esto es especialmente crítico en redes grandes como Internet donde los errores de configuración de ruteo son inevitables.
 
 El TTL típicamente comienza en 64 o 128, permitiendo que un paquete legitimo atraviese múltiples saltos (generalmente decenas) mientras previene que paquetes "perdidos" afecten la red permanentemente.
+
+## Parte 2 - Inyección y detección de errores
+
+En toda comunicación de datos, la señal transmitida puede sufrir alteraciones durante su viaje por el medio físico. Ruido, atenuación o interferencias pueden modificar uno o más bits del mensaje original sin que emisor ni receptor lo noten a simple vista. Para detectar estos errores, se utilizan técnicas de EDAC (Error Detection And Correction).
+
+La idea central de EDAC es agregar al mensaje una cantidad de información redundante (a partir del payload) que permita al receptor verificar la integridad de los datos recibidos. Si la información redundante no coincide con la que el receptor calcula por su cuenta a partir del payload recibido, se concluye que el paquete fue modificado.
+En este laboratorio se trabajaron dos técnicas específicas:
+
+    • Bits de paridad por fila: el payload de 16 bits se separa en 4 nibbles. Para cada nibble se calcula un bit de paridad par (0 si la cantidad de unos es par, 1 si es impar). Los 4 bits de paridad resultantes forman el EDAC. Esta técnica fue utilizada al enviar el paquete.
+
+    • XOR de nibbles: el payload de 16 bits se divide en 4 nibbles. Se aplica la operación XOR acumulada sobre los cuatro nibbles. El resultado de 4 bits es el EDAC. Para verificar la integridad al recibir, se repite el cálculo sobre el payload recibido y se hace XOR con el EDAC recibido: si el resultado es 0000, el paquete no fue alterado.
+
+A continuación se mostrará el experimento realizado en clases.
+
+## Paquete enviado por pingCollins
+
+| IP Destino      | IP origen          | Payload    | EDAC |
+|--------------|------------------|------------|----------|
+| 10.0.2.0     | 10.0.5.0   |     99b1     |  0011    |
+
+El payload 99b1 se convierte a binario y se organiza por nibbles. Para cada nibble se calcula un bit de paridad par. 
+
+Los bits de paridad de cada nibble son:
+
+- Nibble 0 → 0
+- Nibble 1 → 0
+- Nibble 2 → 1
+- Nibble 3 → 1
+
+Por lo tanto, el EDAC calculado y enviado junto al paquete es 0011.
+
+## Paquete recibido por pingCollins
+
+| IP Destino      | IP origen          | Payload    | EDAC |
+|--------------|------------------|------------|----------|
+| 10.0.5.0     | 10.0.1.0   |     0100 1101 1101 1110     |  1010    |
+
+Al recibir el paquete proveniente de 10.0.1.0 con payload 0100 1101 1101 1110 y EDAC 1010, se aplica el método XOR de nibbles para determinar si el paquete fue modificado. Para ello se divide el payload de 16 bits en 4 nibbles y se aplica XOR de forma acumulada:
+
+| Paso      | Nibble          | XOR acumulado  | 
+|--------------|------------------|------------|
+| 1     | 0100    | 0100    |
+| 2    | 1101    | 1001    |
+| 3    | 1101    | 0100    |
+| 4     | 1110    | 1010    |
+
+El XOR acumulado de los cuatro nibbles del payload recibido da como resultado 1010. Finalmente, se hace XOR entre ese resultado y el EDAC recibido:
+
+XOR payload ⊕ EDAC recibido (1010) = 0000
+
+
+## Conclusión
+
+El resultado de la verificación es 0000. En el método XOR, un resultado igual a 0000 indica que el EDAC calculado coincide con el EDAC recibido, lo que significa que el payload no fue modificado durante la transmisión (o el paso por el docente). El paquete fue recibido sin alteraciones. Una limitación importante a considerar es que estas técnicas detectan errores pero no los corrigen. Para corrección se necesitarían técnicas más complejas.
