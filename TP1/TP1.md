@@ -76,7 +76,7 @@ En este caso, nuestro grupo (PingCollins) cumplió la función de router.
 
 ## Actividad 3
 
-En este punto recibimos distintos payloads provenientes de otros routers o el gateway conectado a nosotros. La tarea era detectar a donde habia que enviarlo (otro router o al gateway por defecto), cambiar direccion de origen y destino, y reducir el TTL.
+En este punto recibimos distintos payloads provenientes de otros routers o el gateway conectado a nosotros. La tarea era detectar a donde habia que enviarlo, cambiar direccion de origen y destino, y reducir el TTL.
 
 ![alt text](images/image.png)
 
