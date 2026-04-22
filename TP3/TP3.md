@@ -19,5 +19,5 @@ e) ¿Qué ventajas tienen las claves SSH frente a contraseñas?
 Son más seguras porque utilizan criptografía, lo que hace muy difícil que puedan ser adivinadas o descifradas mediante ataques de fuerza bruta.
 Además, permiten autenticarse sin necesidad de escribir una contraseña cada vez, lo que facilita la automatización de tareas y reduce el riesgo de errores humanos. También son menos vulnerables a ataques como el robo de contraseñas o la reutilización de claves débiles en distintos sistemas.
 
-2) 
+2) Verificar conexión ssh
 ![DirectorioEnHome](Imagenes/Prueba.png)
