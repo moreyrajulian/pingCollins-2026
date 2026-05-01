@@ -80,7 +80,43 @@ Al analizar el contenido de los paquetes capturados, se verificó que no es posi
 
 ![Contenido](Imagenes/contenido.png)
 
+---
+
+## Actividad 4
+
+Mediante la utilización de la herramienta `netcat` (`ncat`), se procedió a desplegar servidores de red simples para el envío de información y su respectiva captura de tráfico. 
+
+En un primer momento, se montó un servidor TCP en una de las máquinas virtuales y se conectó la computadora local como cliente. Se configuró el analizador Wireshark con un filtro para escuchar el tráfico destinado a la IP de la VM, excluyendo SSH (`ip.dst == <VM_IP> and !ssh`). Así, se observó la captura del _handshake_ TCP y, al enviar mensajes entre la terminal local y la de la nube, se analizó el tráfico resultante. A diferencia de las comunicaciones sobre SSH, los mensajes enviados mediante TCP básico viajan en texto plano, por lo cual fue factible descifrar y visualizar directamente el contenido enviado, analizando los segmentos de datos correspondientes.
+
+![Server TCP 1](Imagenes/server_tcp1.jpeg)  
+![Server TCP 2](Imagenes/server_tcp2.jpeg)
+
+Posteriormente, el procedimiento se repitió utilizando el protocolo UDP. Para lograr esto, se empleó la opción `-u` tanto en la inicialización del servidor como en la conexión del cliente. Tras mantener un intercambio de información, el análisis documentado en Wireshark demostró que los datagramas UDP también transportan el contenido de forma legible al no contar con una capa de cifrado inherente.
+
+![Server UDP 1](Imagenes/serverd_udp1.jpeg)  
+![Server UDP 2](Imagenes/server_udp2.jpeg)
+
+Finalmente, se mantuvo el acceso simultáneo a dos máquinas virtuales diferentes mediante sesiones separadas. Utilizando la misma herramienta, se estableció una comunicación bidireccional entre estas instancias. De esta manera, se documentó satisfactoriamente un intercambio de mensajes fluido entre ambos nodos, comprobando la conectividad de red interna de la infraestructura en la nube.
+
+![Comunicación VM](Imagenes/comunicacion_vm.jpeg)
+
 ---  
+
+## Actividad 5
+
+Para esta fase práctica, se procedió a navegar hacia el directorio de trabajo del grupo en la máquina virtual. Allí, se elaboró un archivo `index.html` con un mensaje de bienvenida personalizado. A continuación, se desplegó un servidor web temporal utilizando el módulo integrado de Python mediante el comando pertinente (`python3 -m http.server`).
+
+Tras la puesta en marcha del servicio, se verificó el acceso ingresando desde el navegador web de la computadora local hacia la dirección de la máquina en la nube, especificando el puerto correspondiente. Simultáneamente, se empleó Wireshark para capturar y analizar los paquetes resultantes de esta interacción web. Al inspeccionar la captura, se constató que es completamente posible descifrar y visualizar directamente el contenido del archivo solicitado. Esto sucede debido a que el estándar HTTP tradicional transporta la información en texto plano, sin aplicar esquemas de cifrado para proteger la confidencialidad de la carga útil.
+
+Como respuesta a la posibilidad de intervenir el contenido, la carencia de encriptación y autenticación en este tipo de conexiones hace que la comunicación sea susceptible a manipulaciones. Un tercero posicionado en el medio del flujo de red podría llegar a interceptar, alterar o inyectar datos (tales como scripts maliciosos o información falsa) antes de que estos llegaran al navegador del cliente, sin que este último lograra advertirlo inmediatamente.
+
+![Despliegue HTTP](Imagenes/despliegue_http.jpeg)
+
+Para ser un tanto mas creativos, hicimos un pequenio codigo HTML para darle nuestro toque personal a la pagina, aqui el resultado:
+
+![Mejora de pagina](Imagenes/pagina_http.jpeg)
+
+---
 
 ## Actividad 6  
 
