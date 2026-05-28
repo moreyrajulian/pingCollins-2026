@@ -26,11 +26,22 @@
 
 ---
 
-## Resumen  
+## Resumen
+
+En este trabajo práctico se desarrolló un sistema básico de comunicación cliente-servidor utilizando sockets TCP. Se abordaron conceptos relacionados con la serialización de datos y el envío de mensajes en formato JSON.
+
+Además, se diseñó un cliente personalizado capaz de conectarse al servidor y enviar mensajes. Posteriormente, se incorporaron mecanismos de seguridad mediante el uso de cifrado simétrico con Fernet, permitiendo proteger la confidencialidad e integridad de la información transmitida por la red.
+
+Finalmente, se verificó el funcionamiento del sistema utilizando herramientas de captura de tráfico, comprobando que los mensajes cifrados viajan de forma ilegible para terceros. El trabajo permitió integrar conceptos de redes, serialización y criptografía aplicados a un entorno real de comunicación.
+
 
 ---
 
-## Introducción  
+## Introducción
+
+Las aplicaciones modernas dependen constantemente del intercambio de información entre distintos dispositivos y servicios conectados a una red. Para que esta comunicación sea posible, es necesario utilizar protocolos que permitan establecer conexiones confiables y mecanismos que definan cómo se representan y transmiten los datos entre cliente y servidor.
+
+En las siguientes actividades se desarrollará progresivamente un sistema de mensajería TCP seguro utilizando Python y se abordarán conceptos teóricos necesarios para el trabajo práctico.
 
 --- 
 
@@ -187,3 +198,9 @@ Podemos observar como el campo `group` viaja de manera legible pero el `payload`
 ---
 
 ## Conclusión  
+
+Durante el desarrollo de este trabajo práctico se logró implementar un sistema de comunicación cliente-servidor funcional utilizando sockets TCP en Python. A través de las distintas actividades se comprendió el proceso de serialización de datos y la importancia de utilizar formatos adecuados para transmitir información a través de la red.
+
+También se pudo analizar la diferencia entre serialización binaria y no binaria, aplicando JSON como formato de intercambio de mensajes. Posteriormente, la incorporación de cifrado mediante Fernet permitió añadir una capa de seguridad al sistema, garantizando tanto la confidencialidad como la integridad de los datos enviados.
+
+Mediante el uso de herramientas de captura de paquetes se verificó el comportamiento real de la comunicación y del cifrado implementado. El trabajo permitió integrar conocimientos de redes, programación y criptografía en una aplicación práctica y cercana a escenarios reales de comunicación segura.
