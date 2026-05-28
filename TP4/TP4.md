@@ -91,8 +91,4 @@ Luego de enviar el paquete confirmamos que el servidor lo recibió correctamente
 
 ---
 
-## Actividad 6  
-
----
-
 ## Conclusión  
