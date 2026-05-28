@@ -81,9 +81,90 @@ Luego de enviar el paquete confirmamos que el servidor lo recibió correctamente
 
 ## Actividad 3  
 
+Ahora diseñaremos un cliente propio, lo realizaremos en lenguaje Python y realizará las siguientes acciones:
+
+1. Pedir IP y puerto al usuario
+2. Pedir el nombre de grupo
+3. Conectarse al servidor
+4. Loop:
+   → pedir mensaje al usuario
+   → armar el JSON
+   → enviarlo
+   → si escribimos "exit", salimos
+
+El código se encuentra en: `/TP4/src/nuestro_cliente.py`
+
+Ahora veremos como funciona nuestro cliente y corroboramos que lleguen los mensajes en el servidor:
+
+![funcionando](/TP4/images/serverClienteOn.png) 
+![servidorNuevo](/TP4/images/servidorNuevo.png) 
+![nuestroCliente](/TP4/images/nuestroCliente.png) 
+
 ---
 
 ## Actividad 4
+
+Para añadir seguridad al sistema de mensajería TCP implementado en los puntos anteriores,
+se cifra la **payload** del mensaje antes de enviarlo. El campo `group` viaja en texto plano,
+mientras que el contenido del mensaje viaja ilegible para cualquier interceptor.
+ 
+```json
+// Mensaje SIN cifrado
+{"group": "pingCollins", "payload": "Hola server!"}
+ 
+// Mensaje CON cifrado
+{"group": "pingCollins", "payload": "gAAAAABqGKfbkS_UIyebzmzPAuvtBzHFLSzCLl1u...=="}
+```
+
+Para ello utilizamos la librería `cryptography` de Python con la encriptación Fernet. Se modificó el código en `nuestro_cliente.py` y se agregó la función `cifrar_payload()` que recibe el texto plano, lo cifra con la clave Fernet y devuelve el token resultante como string.
+
+Ahora veremos como el servidor recibe el campo `group` en texto plano y el payload es un token cifrado ilegible:
+
+![encriptado](/TP4/images/encriptacion.png) 
+
+Analicemos ahora la técnica de cifrado **Fernet:**
+
+- Fernet es un esquema de **cifrado simétrico autenticado** incluido en la librería `cryptography` de Python. No es un algoritmo nuevo, combina algoritmos criptográficos probados para garantizar tanto confidencialidad como integridad del mensaje.
+
+- Todo token Fernet comienza con los caracteres `gAAAAA`, que corresponden al byte de versión `0x80` codificado en Base64. Internamente, el token contiene los siguientes campos:
+ 
+| Campo | Tamaño | Descripción |
+|---|---|---|
+| Version | 1 byte | Identifica el formato Fernet (siempre `0x80`) |
+| Timestamp | 8 bytes | Momento en que se cifró el mensaje (Unix time) |
+| IV | 16 bytes | Vector de inicialización aleatorio |
+| Ciphertext | Variable | Datos cifrados con AES-128-CBC |
+| HMAC | 32 bytes | Firma de autenticación SHA-256 |
+
+Los algortimos que utiliza son:
+
+
+- **AES-128-CBC**:
+
+AES (Advanced Encryption Standard) es el estándar de cifrado simétrico más utilizado en el mundo. La variante CBC (Cipher Block Chaining) encadena cada bloque cifrado con el anterior, de modo que bloques de entrada idénticos producen bloques de salida distintos. Esto evita patrones reconocibles en el texto cifrado.
+
+- **HMAC-SHA256**:
+
+Además de cifrar, Fernet firma cada token con un código HMAC. Si cualquier byte del token es modificado en tránsito, la verificación falla y el receptor rechaza el mensaje. Esto garantiza integridad y confidencialidad.
+
+- **Base64 URL-safe**:
+
+Los bytes resultantes del cifrado se codifican en Base64 para poder ser transmitidos como texto en el campo JSON, que no admite bytes arbitrarios.
+
+Algunos aspectos claves a tener en cuenta son: 
+
+- **Cifrado simétrico**: 
+Se usa la misma clave para cifrar y descifrar. Cliente y servidor deben compartir esta clave
+de antemano por un canal seguro.
+ 
+- **IV aleatorio por mensaje**: 
+Cada vez que se cifra un mensaje se genera un IV (vector de inicialización) distinto. Esto
+garantiza que cifrar el mismo texto dos veces produce tokens completamente distintos, lo que
+impide a un atacante detectar mensajes repetidos.
+ 
+- **Cifrado autenticado**:
+Fernet combina cifrado e integridad en una sola operación. No es posible modificar el
+contenido cifrado sin que el receptor lo detecte.
 
 ---  
 
