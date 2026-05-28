@@ -38,7 +38,7 @@
 
 Cuando escribimos o usamos código de algún lenguaje como puede ser Python, usualmente creamos variables, tenemos objetos, listas o estructuras que viven en nuestra memoria RAM y poseen un formato que solo ese proceso entiende. Esto tal como vive en RAM no se puede enviar a través de la red hacia otro usuario o compañero para que lo utilice, en la red solo podemos transportar bytes planos. Para poder realizar este envió necesitamos **serializar** nuestra información, es decir, convertir estas estructuras de datos en una secuencia de bytes que pueda viajar por la red y así el que lo reciba sea capaz de **deserializarlo** para poder reconstruir la información original. El proceso sería como este:
 
-$ [Objeto \ en \ memoria]  →  serializar  →  [bytes]  →  red  →  [bytes]  →  deserializar  →  [Objeto \ en \ memoria]$
+$[Objeto \ en \ memoria]  →  serializar  →  [bytes]  →  red  →  [bytes]  →  deserializar  →  [Objeto \ en \ memoria]$
 
 A la hora de serializar información nos podemos encontrar con dos tipos:
 
