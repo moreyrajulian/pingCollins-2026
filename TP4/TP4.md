@@ -60,6 +60,23 @@ Cada una de estas formas tiene sus ventajas y desventajas, a continuación harem
 
 ## Actividad 2  
 
+A continuación desplegaremos un servidor TCP multi-hilo, para ello haremos uso de un script en Python para el servidor y serializaremos nuestro mensaje en formato JSON para que luego sea enviado por medio de PacketSender. La morfología para el mensaje será la siguiente:
+
+![mensaje](/TP4/images/mensaje.png)
+
+Primero ejecutaremos el script del servidor para que se quede escuchando a la espera de un cliente: 
+
+![servidorEscuchando](/TP4/images/serverOn.png)
+
+De mientras configuraremos PacketSender con los siguientes valores y enviamos: 
+
+![configPacketSender](/TP4/images/packetSenderClient.png)
+
+Luego de enviar el paquete confirmamos que el servidor lo recibió correctamente y le dio la bienvenida a nuestra máquina: 
+
+![envioPacket](/TP4/images/envioPacketSender.png)
+![servidorEscuchó](/TP4/images/mensajeRecibido.png) 
+
 ---
 
 ## Actividad 3  
