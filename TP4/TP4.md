@@ -170,6 +170,20 @@ contenido cifrado sin que el receptor lo detecte.
 
 ## Actividad 5
 
+Ahora modificaremos el servidor para que sea capaz de descifrar la payload utilizando la misma clave Fernet que el cliente. El código del servidor se encuentra en `/TP4/src/nuestro_servidor.py`, ahora el mismo ademas de imprimir el payload cifrado muestra el mensaje descifrado. También se agregó una función que detecta si alguién envío un payload que no es un token Fernet válido.
+
+Podemos observar la funcionalidad en la siguiente captura:
+
+![descifradoServer](/TP4/images/descifradoServer.png) 
+
+Entonces gracias a que ambos extremos comparten la misma clave Fernet el token es correctamente descifrado y se vuelve a obtener el texto plano que enviamos, esta sería la implementación real de el esquema que presentamos al inicio del trabajo.
+
+Para corroborar la veracidad del cifrado del payload capturamos el tráfico de los paquetes para ver como viajan a través de la red:
+
+![wireshark](/TP4/images/wireshark.png) 
+
+Podemos observar como el campo `group` viaja de manera legible pero el `payload` lo hace de manera cifrada y sin la clave Fernet es imposible recuperar el mensaje original a partir del token.
+
 ---
 
 ## Conclusión  
