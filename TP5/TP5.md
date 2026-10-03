@@ -28,6 +28,8 @@
 
 ## Resumen
 
+-
+
 En este trabajo práctico se analizaron distintos componentes de infraestructura utilizados en arquitecturas distribuidas y su relación con los diferentes tipos de tráfico presentes en aplicaciones modernas. A través del simulador se estudiaron conceptos de escalabilidad, disponibilidad y tolerancia a fallos, evaluando el comportamiento de componentes como firewalls, colas de mensajes, cachés, bases de datos, CDN y servidores de cómputo. Finalmente, se diseñaron y compararon distintas arquitecturas, identificando cuellos de botella y estrategias de escalado para mejorar el rendimiento del sistema.
 
 ---
