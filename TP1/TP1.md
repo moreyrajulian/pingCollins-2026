@@ -15,8 +15,8 @@
 **Asignatura**: Redes de Computadoras
 
 **Profesores**
-- Henn, Santiago M.
-- Oliva Cuneo, Facundo N.
+- Henn, Santiago M
+- Oliva Cuneo, Facundo N
 
 **Fecha de entrega**: 26 de marzo de 2026
 
